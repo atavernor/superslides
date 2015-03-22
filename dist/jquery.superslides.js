@@ -1,6 +1,12 @@
 /*! Superslides - v0.6.3-wip - 2013-12-17
 * https://github.com/nicinabox/superslides
-* Copyright (c) 2013 Nic Aitch; Licensed MIT */
+* Copyright (c) 2013 Nic Aitch; Licensed MIT 
+*
+* --------------------------------------------
+*  function _findHeight modified by A Tavernor 
+*  to allow proportional sizing based on width
+* ---------------------------------------------
+*/
 (function(window, $) {
 
 var Superslides, plugin = 'superslides';
@@ -16,6 +22,7 @@ Superslides = function(el, options) {
     pagination: true,
     hashchange: false,
     scrollable: true,
+    proportionalRatio: false,
     elements: {
       preserve: '.preserve',
       nav: '.slides-navigation',
@@ -434,7 +441,11 @@ Superslides.prototype = {
     return $(this.options.inherit_width_from).width();
   },
   _findHeight: function() {
-    return $(this.options.inherit_height_from).height();
+    if (this.options.proportionalRatio){
+        return  $(this.options.inherit_width_from).width() * this.options.proportionalRatio;
+    }else{
+      return $(this.options.inherit_height_from).height();
+    }
   },
 
   _findMultiplier: function() {
